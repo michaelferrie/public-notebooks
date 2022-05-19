@@ -1,0 +1,25 @@
+#!/bin/bash 
+# Michael Ferrie - 2019
+
+#Functions
+ip_address () {
+	ip a | grep eno1 | grep inet | awk {'print $2'}
+}
+
+gw_address () {
+	ip route | grep default | awk '{print $3}'
+}
+dns_servers () {
+	cat /etc/resolv.conf | grep name | awk '{print $2}'
+}
+
+#Variables
+print_network=$(ip_address)
+print_gw=$(gw_address)
+print_wan=$(curl -s https://ipinfo.io/ip)
+print_dns=$(dns_servers)
+
+echo "The IP address is: " $print_network
+echo "The Gateway address is: " $print_gw
+echo "The External IP address is: " $print_wan
+echo "The DNS Server Addresses are: " $print_dns

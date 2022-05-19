@@ -1,0 +1,25 @@
+#!/bin/bash
+#Ping Script Michael Ferrie Feb 22 2019
+#Is it up or is it down?
+#Add space delimited ips to the for loop and they will be pinged.
+#Change the sleep value at the end for a longer gap between pings
+xyz=1
+
+while [ $xyz == 1 ]
+
+do
+
+for i in 10.102.20.22 10.102.20.23 10.102.20.24
+do
+	now=$(date +"%T")
+	ping -c 1 -w 2 "$i" > /dev/null
+	if [ $? -eq 0 ]; then
+	echo "Device at $i is up at $now"
+	else
+	echo "Device at $i is down at $now"
+	fi
+done
+
+sleep 2
+
+done

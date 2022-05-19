@@ -1,0 +1,33 @@
+#!/bin/bash
+# Michaels Menu Script 
+# Jan 2018
+
+while true
+do
+PS3='Please enter your choice: '
+options=("List Directory" "Show Free Disk Space" "Option 3" "Quit")
+select opt in "${options[@]}" 
+do
+	case $opt in
+         "List Directory")
+		echo "you chose choice 1"
+		ls -l
+	break
+        ;;
+	"Show Free Disk Space")
+		echo "you chose choice 2"
+		df -kh .
+		break
+		;;
+	"Option 3")
+		echo "you chose choice 3"
+		break
+		;;
+	"Quit")
+		echo "Goodbye..."
+		exit
+		;;
+	*) echo invalid option;;
+	esac
+done
+done

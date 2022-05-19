@@ -1,0 +1,15 @@
+#!/bin/bash
+
+hashStart=0
+
+
+while true  ; do 
+
+	match=$(grep -E '^0000' nameFileSum)
+	echo $match
+	head -c 10 /dev/urandom | tr -dc 'a-zA-Z0-9~!@#$%^&*_-' >> nameFile
+
+	md5sum nameFile >> nameFileSum
+
+done
+

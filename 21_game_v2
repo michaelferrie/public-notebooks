@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+# Michael's 21 Game, Mar 2019
+
+deal () {
+	for i in dealCard
+do
+card=$(shuf -n 1 -e 1 2 3 4 5 6 7 8 9 10 J K Q A)
+suit=$(shuf -n 1 -e H D S C)
+echo "$card""$suit"
+
+done
+
+}
+
+cardsToNumbers () {
+	decimalCards=$(echo $1 |  sed 's/[DHSC]//g' | sed -r 's/[JQK]+/10/g' | sed -r 's/[A]+/11/g' | awk -F ',' '{sum+=$1+$2+$3+$4+$5+$6+$7+$8} END {print sum}')
+	echo $decimalCards
+}
+
+
+pCard1=$(deal) ; pCard2=$(deal)
+dCard1=$(deal) ; dCard2=$(deal)
+
+echo "Players Hand" ; echo "$pCard1" ; echo "$pCard2"
+echo "Dealers Hand" ; echo "$dCard1" ; echo "??"
+
+
+pHand=$pCard1,$pCard2
+dHand=$dCard1,$dCard2
+
+while true
+do
+
+	PS3='Choose an Option, Closest to 21 Wins, Ace is High: '
+	options=("Hit - H" "Stick - S" "Quit")
+	select opt in "${options[@]}" 
+	do
+	case $opt in
+        "Hit - H")
+		newCard=$(deal)
+		Hand=$pHand,$newCard
+	echo "Your cards are now" 
+	echo "$Hand" ; cardsToNumbers $Hand
+		if [[ $decimalCards -ge 22 ]]
+		then
+			echo "Sorry you are bust, try again..."
+			./$0
+		else
+		echo "The Dealer has" ; echo "??,""$dCard1"
+	fi
+	break
+        ;;
+	"Stick - S")
+	echo "Your Cards $Hand" ; cardsToNumbers $Hand
+	echo "Dealers Cards  $dHand " ; cardsToNumbers $dHand
+	break
+	;;
+	"Quit")
+	echo "Goodbye..."
+	exit
+	;;
+	*) echo invalid option;;
+esac
+done
+done

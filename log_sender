@@ -1,0 +1,17 @@
+#!/bin/bash
+
+while true
+
+do
+
+	echo "sending log messages to /var/log/messages"
+
+	logger hello
+	logger to splunk
+	sleep 1
+
+	logger goodbye
+	logger not to splunk
+	sleep 1
+
+done
